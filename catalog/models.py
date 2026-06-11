@@ -70,27 +70,27 @@ class Contact(models.Model):
         max_length=200,
         unique=True,
     )
-    country = models.CharField(
-        max_length=200, verbose_name='Страна'
-    )
-    email = models.EmailField(blank=True, null=True, verbose_name='E-mail')
+    country = models.CharField(max_length=200, verbose_name="Страна")
+    email = models.EmailField(blank=True, null=True, verbose_name="E-mail")
     phone = models.CharField(
-        max_length=50,
-        blank=True,
-        null=True,
-        verbose_name='Телефон'
+        max_length=50, blank=True, null=True, verbose_name="Телефон"
     )
-    city = models.CharField(max_length=50, verbose_name='Город')
-    street = models.CharField(max_length=100, verbose_name='Улица')
-    house_number = models.IntegerField(verbose_name='Номер дома',)
-    postal_code = models.IntegerField(verbose_name='Почтовый индекс',)
-    tax_number = models.CharField(max_length=50, verbose_name='ИНН')
+    city = models.CharField(max_length=50, verbose_name="Город")
+    street = models.CharField(max_length=100, verbose_name="Улица")
+    house_number = models.IntegerField(
+        verbose_name="Номер дома",
+    )
+    postal_code = models.IntegerField(
+        verbose_name="Почтовый индекс",
+    )
+    tax_number = models.CharField(max_length=50, verbose_name="ИНН")
 
     class Meta:
         verbose_name = "Контакт"
         verbose_name_plural = "Контакты"
-        ordering = ["city",]
+        ordering = [
+            "city",
+        ]
 
     def __str__(self):
-        return f'{self.country} {self.city} {self.street} {self.house_number}'
-
+        return f"{self.country} {self.city} {self.street} {self.house_number}"
