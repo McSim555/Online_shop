@@ -1,0 +1,80 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "СМ Bosch 33333",
+        "description": "Узкая стиральная машина",
+        "image": "images/СМ_Bosch.jpg",
+        "category": 1,
+        "price": "50000.00",
+        "created_at": "2026-06-10",
+        "updated_at": "2026-06-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Телевизор Philips",
+        "description": "OLED",
+        "image": "",
+        "category": 2,
+        "price": "73000.00",
+        "created_at": "2026-06-10",
+        "updated_at": "2026-06-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "СМ Samsung 111",
+        "description": "СМ 60 см",
+        "image": "",
+        "category": 1,
+        "price": "55000.00",
+        "created_at": "2026-06-10",
+        "updated_at": "2026-06-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "СМ LG 391",
+        "description": "Инверторная СМ",
+        "image": "",
+        "category": 1,
+        "price": "39000.00",
+        "created_at": "2026-06-10",
+        "updated_at": "2026-06-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "СМ Haier 39",
+        "description": "Встраиваемая СМ",
+        "image": "",
+        "category": 1,
+        "price": "45000.00",
+        "created_at": "2026-06-10",
+        "updated_at": "2026-06-10"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "Холодильник Indesit 39",
+        "description": "Хололдильник NoFrost",
+        "image": "",
+        "category": 4,
+        "price": "89000.00",
+        "created_at": "2026-06-10",
+        "updated_at": "2026-06-10"
+    }
+}
+]
