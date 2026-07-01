@@ -6,6 +6,7 @@
 {% block content %}
 <div class="container" style="margin-bottom: 70px;">
     <h1>Каталог товаров</h1>
+    <a href="{% url 'catalog:product_create' %}" class="btn btn-success">Добавить товар</a>
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
