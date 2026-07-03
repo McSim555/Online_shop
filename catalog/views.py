@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from catalog.models import Product, Contact
+from .forms import ProductForm
 
 
 def home(request):
@@ -31,3 +32,26 @@ def feedback(request):
         message = request.POST.get("message")
         return HttpResponse(f"Спасибо, {name}! Ваша информация получена.")
     return render(request, "feedback.html")
+
+
+def product_info(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    context = {"product": product}
+    return render(request, "product.html", context)
+
+
+def products_info(request):
+    products = Product.objects.all()
+    context = {"products": products}
+    return render(request, "main.html", context)
+
+
+def product_create(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('catalog:products_info')
+    else:
+        form = ProductForm()
+    return render(request, 'product_form.html', {'form': form})
