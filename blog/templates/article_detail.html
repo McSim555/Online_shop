@@ -3,32 +3,32 @@
 {% block title %}Статья{% endblock %}
 
 {% block content %}
-<div class="container" style="margin-bottom: 70px;">
+<div class="container" style="margin-bottom: 30px;">
     <h1>Статья блога</h1>
 </div>
 
 <div class="container">
     <div class="card">
-        <div class="card-body">
+
+        <div class="card-body pb-2">
             {% if article.image %}
-                <img src="{{ article.image.url }}" class="img-fluid" alt="{{ article.name }}" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 15px;">
+                <img src="{{ article.image.url }}" class="img-fluid" alt="{{ article.name }}" style="width: 100%; max-height: 200px; object-fit: contain; margin-bottom: 10px;">
             {% else %}
-                <img src="https://via.placeholder.com/800x400?text=Нет+фото" class="img-fluid" alt="Нет фото" style="width: 100%; max-height: 400px; object-fit: contain; margin-bottom: 15px;">
+                <img src="https://via.placeholder.com/800x400?text=Нет+фото" class="img-fluid" alt="Нет фото" style="width: 100%; max-height: 200px; object-fit: contain; margin-bottom: 10px;">
             {% endif %}
-            <h5 class="card-title">{{ article.name }}</h5>
-            <p class="text-muted"><i class="bi bi-eye"></i> Просмотров: {{ article.views_counter }}</p>
+            <h5 class="card-title" style="font-size: 1.1rem;">{{ article.name }}</h5>
+            <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 0;"><i class="bi bi-eye"></i> Просмотров: {{ article.views_counter }}</p>
         </div>
 
         <div class="card-body" style="min-height: 50vh; overflow-y: auto; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
             <p class="card-text">{{ article.content|default:"Статья отсутствует" }}</p>
         </div>
 
-       <div class="card-body d-flex gap-2">
+        <div class="card-body d-flex gap-2">
             <a href="{% url 'blog:article_list' %}" class="btn btn-primary">Назад</a>
             <a href="{% url 'blog:article_update' article.pk %}" class="btn btn-warning">Изменить</a>
             <a href="{% url 'blog:article_delete' article.pk %}" class="btn btn-danger">Удалить</a>
-</div>
-
+        </div>
     </div>
 </div>
 {% endblock %}

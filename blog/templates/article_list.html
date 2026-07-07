@@ -13,7 +13,7 @@
     {% for article in article_list %}
         <div class="col">
             <div class="card h-100">
-                    <img src="{{ article.image | media_filter }}">
+                    <img src="{{ article.image | media_filter }}" class="img-fluid" alt="{{ article.name }}">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ article.name }}</h5>
                     <p class="card-text">{{ article.content|truncatechars:100|default:"Содержимое отсутствует" }}</p>

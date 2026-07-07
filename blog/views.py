@@ -29,7 +29,6 @@ class ArticleDetailView(DetailView):
         obj.save()
         return obj
 
-
 class ArticleUpdateView(UpdateView):
     model = Article
     fields = ['name', 'content', 'image', 'is_published']
