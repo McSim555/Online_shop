@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Article
@@ -23,12 +23,19 @@ class ArticleDetailView(DetailView):
     template_name = 'article_detail.html'
     context_object_name = 'article'
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        obj.views_counter += 1
+        obj.save()
+        return obj
+
 
 class ArticleUpdateView(UpdateView):
     model = Article
     fields = ['name', 'content', 'image', 'is_published']
     template_name = 'article_form.html'
-    success_url = reverse_lazy('blog:article_list')
+    def get_success_url(self):
+        return reverse('blog:article_detail', kwargs={'pk': self.object.pk})
 
 class ArticleDeleteView(DeleteView):
     model = Article
