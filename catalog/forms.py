@@ -1,4 +1,6 @@
 from django import forms
+from django.core.validators import validate_image_file_extension
+
 from .models import Product
 from django.core.exceptions import ValidationError
 
@@ -17,6 +19,17 @@ class ProductForm(forms.ModelForm):
         if price < 0:
             raise ValidationError('Цена не должна быть отрицательной')
         return price
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        max_size = 5 * 1024 * 1024
+        if image.size > max_size:
+            raise ValidationError('Размер файла не должен превышать 5 МБ.')
+
+        allowed_extensions = ['jpeg', 'png']
+        ext = image.name.split('.')[-1].lower()
+        if ext not in allowed_extensions:
+            raise ValidationError('Допустимы только файлы с расширением .jpeg или .png.')
 
     def clean(self):
         cleaned_data = super().clean()
