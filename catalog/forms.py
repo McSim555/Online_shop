@@ -7,10 +7,10 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'price', 'category', 'image']
-        widgets = {
-            'name': forms.TextInput(attrs={'placeholder': ''}),
-            'description': forms.Textarea(attrs={'rows': 4}),
-        }
+        # widgets = {
+        #     'name': forms.TextInput(attrs={'placeholder': ''}),
+        #     'description': forms.Textarea(attrs={'rows': 4}),
+        # }
 
     def clean_price(self):
         price = self.cleaned_data.get('price')
@@ -30,7 +30,32 @@ class ProductForm(forms.ModelForm):
 
         for word in forbidden_words:
             if description and word.lower() in description.lower():
-                self.add_error('name', f'Описание не может содержать слово {word}')
+                self.add_error('description', f'Описание не может содержать слово {word}')
 
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите название продукта'
+        })
+
+        self.fields['description'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите описание продукта'
+        })
+
+        self.fields['price'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите цену'
+        })
+
+        self.fields['category'].widget.attrs.update({
+            'class': 'form-select',
+        })
+
+        self.fields['image'].widget.attrs.update({
+            'class': 'btn-secondary',
+        })
 
 
