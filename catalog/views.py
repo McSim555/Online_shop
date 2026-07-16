@@ -2,7 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import DetailView, ListView, CreateView, TemplateView, DeleteView, UpdateView
+from django.views.generic import (
+    DetailView,
+    ListView,
+    CreateView,
+    TemplateView,
+    DeleteView,
+    UpdateView,
+)
 from catalog.models import Product, Contact
 from .forms import ProductForm
 
@@ -28,7 +35,7 @@ class ContactsView(TemplateView):
             contact_shown = None
         except Contact.MultipleObjectsReturned:
             contact_shown = Contact.objects.filter(name="Филиал 1").first()
-        context['contact'] = contact_shown
+        context["contact"] = contact_shown
         return context
 
 
@@ -45,35 +52,35 @@ class FeedbackView(View):
 class ProductDetailView(DetailView):
     model = Product
     template_name = "product_detail.html"
-    context_object_name = 'product'
+    context_object_name = "product"
 
 
 class ProductListView(ListView):
     model = Product
     template_name = "product_list.html"
-    context_object_name = 'products'
+    context_object_name = "products"
 
 
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_form.html'
-    context_object_name = 'product'
-    success_url = reverse_lazy('catalog:product_list')
+    template_name = "product_form.html"
+    context_object_name = "product"
+    success_url = reverse_lazy("catalog:product_list")
 
 
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_form.html'
-    context_object_name = 'product'
+    template_name = "product_form.html"
+    context_object_name = "product"
+
     def get_success_url(self):
-        return reverse('catalog:product_detail', kwargs={'pk': self.object.pk})
+        return reverse("catalog:product_detail", kwargs={"pk": self.object.pk})
+
 
 class ProductDeleteView(DeleteView):
     model = Product
-    template_name = 'product_confirm_delete.html'
-    context_object_name = 'product'
-    success_url = reverse_lazy('catalog:product_list')
-
-
+    template_name = "product_confirm_delete.html"
+    context_object_name = "product"
+    success_url = reverse_lazy("catalog:product_list")
