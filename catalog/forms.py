@@ -12,6 +12,12 @@ class ProductForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 4}),
         }
 
+    def clean_price(self):
+        price = self.cleaned_data.get('price')
+        if price < 0:
+            raise ValidationError('Цена не должна быть отрицательной')
+        return price
+
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get('name')
