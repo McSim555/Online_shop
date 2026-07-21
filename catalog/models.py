@@ -29,30 +29,26 @@ class Product(models.Model):
         max_length=200,
         unique=True,
         verbose_name="Наименование продукта",
-        help_text="Введите наименование продукта",
     )
     description = models.CharField(
         max_length=500,
         verbose_name="Описание продукта",
-        help_text="Введите описание продукта",
     )
     image = models.ImageField(
         upload_to="images/",
         blank=True,
         null=True,
         verbose_name="Изображение продукта",
-        help_text="Загрузите изображение продукта",
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         verbose_name="Категория продукта",
-        help_text="Укажите категорию продукта",
         blank=True,
         null=True,
         related_name="products",
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 

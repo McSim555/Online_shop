@@ -25,7 +25,6 @@ class Article(models.Model):
     is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
     views_counter = models.PositiveIntegerField(default=0)
 
-
     class Meta:
         verbose_name = "Статья"
         verbose_name_plural = "Статьи"
