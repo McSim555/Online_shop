@@ -21,10 +21,10 @@ class UserCreateView(CreateView):
         user.token = token
         user.save()
         host = self.request.get_host()
-        url = f'http://{host}/users/email-confirm/{token}/'
+        url = f"http://{host}/users/email-confirm/{token}/"
         send_mail(
-            subject='Подтверждение почты',
-            message=f'Привет! Для подтверждения почты нужно перейти по ссылке: {url}',
+            subject="Подтверждение почты",
+            message=f"Привет! Для подтверждения почты нужно перейти по ссылке: {url}",
             from_email=EMAIL_HOST_USER,
             recipient_list=[user.email],
         )
@@ -33,6 +33,6 @@ class UserCreateView(CreateView):
 
 def email_verification(request, token):
     user = get_object_or_404(User, token=token)
-    user.is_active=True
+    user.is_active = True
     user.save()
-    return redirect(reverse('users:login'))
+    return redirect(reverse("users:login"))
