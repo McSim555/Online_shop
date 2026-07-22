@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
@@ -49,7 +50,7 @@ class FeedbackView(View):
         return HttpResponse(f"Спасибо, {name}! Ваша информация получена.")
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "product_detail.html"
     context_object_name = "product"
@@ -61,25 +62,25 @@ class ProductListView(ListView):
     context_object_name = "products"
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    template_name = "product_form.html"
+    template_name = "user_update_form.html"
     context_object_name = "product"
     success_url = reverse_lazy("catalog:product_list")
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = "product_form.html"
+    template_name = "user_update_form.html"
     context_object_name = "product"
 
     def get_success_url(self):
         return reverse("catalog:product_detail", kwargs={"pk": self.object.pk})
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product_confirm_delete.html"
     context_object_name = "product"

@@ -17,7 +17,7 @@ class ProductForm(forms.ModelForm):
 
     def clean_image(self):
 
-        image = self.cleaned_data.get('image')
+        image = self.cleaned_data.get("image")
         if not image:
             return image
 
