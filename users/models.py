@@ -5,7 +5,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(unique=True, verbose_name="E-mail")
+    email = models.EmailField(
+        unique=True,
+        verbose_name="E-mail",
+        help_text="На данный e-mail будет отправлено письмо для подтверждения указанного e_mail",
+    )
 
     avatar = models.ImageField(
         upload_to="users/avatar",
