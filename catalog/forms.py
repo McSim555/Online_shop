@@ -85,3 +85,10 @@ class ProductForm(forms.ModelForm):
                 "class": "btn-secondary",
             }
         )
+
+
+class ProductModeratorForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ["name", "description", "category", "image"]
