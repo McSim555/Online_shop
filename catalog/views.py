@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, request
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -62,6 +62,13 @@ class ProductListView(ListView):
     template_name = "product_list.html"
     context_object_name = "products"
 
+    def get_queryset(self):
+        user = self.request.user
+        qs = super().get_queryset()
+        if user.has_perm('catalog.can_unpublish_product'):
+            return qs
+        return qs.filter(is_published=True)
+
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
@@ -116,3 +123,14 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
         if not self.has_permission():
             raise PermissionDenied("У вас нет прав на удаление этого продукта.")
         return super().dispatch(request, *args, **kwargs)
+
+
+class ProductPublishView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    permission_required = 'catalog.can_unpublish_product'
+    raise_exception = True
+
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+        product.is_published = not product.is_published
+        product.save()
+        return redirect(request.META.get('HTTP_REFERER', reverse('catalog:product_list')))

@@ -8,27 +8,44 @@
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
-                <!-- Изображение товара -->
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
-                {% else %}
-                    <img src="https://via.placeholder.com/300x200?text=Нет+фото" class="card-img-top" alt="Нет фото" style="height: 200px; object-fit: cover;">
-                {% endif %}
+    <div class="col">
+        <div class="card h-100">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+                <img src="https://via.placeholder.com/300x200?text=Нет+фото" class="card-img-top" alt="Нет фото" style="height: 200px; object-fit: cover;">
+            {% endif %}
 
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description|truncatechars:100|default:"Описание отсутствует" }}</p>
-                    <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
-                    <p class="card-text"><strong>Категория: {{ product.category }}</strong></p>
-                </div>
-                <div class="card-footer bg-transparent d-flex gap-2">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description|truncatechars:100|default:"Описание отсутствует" }}</p>
+                <p class="card-text"><strong>Цена: {{ product.price }} ₽</strong></p>
+                <p class="card-text"><strong>Категория: {{ product.category }}</strong></p>
+
+                <p class="card-text">
+                    <small>
+                        Статус:
+                        {% if product.is_published %}
+                            <span class="text-success">Опубликован</span>
+                        {% else %}
+                            <span class="text-secondary">Не опубликован</span>
+                        {% endif %}
+                    </small>
+                </p>
+            </div>
+
+            <div class="card-footer bg-transparent d-flex gap-2">
                 <a href="{% url 'catalog:product_list' %}" class="btn btn-primary">Назад</a>
-                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning">Изменить</a>
-                <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
-                </div>
+
+                {% if user == product.owner  %}
+                    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning">Изменить</a>
+                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
+                {% if perms.catalog.delete_product  %}
+                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
             </div>
         </div>
+    </div>
 </div>
 {% endblock %}

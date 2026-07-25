@@ -54,6 +54,8 @@ class Product(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     owner = models.ForeignKey(User, verbose_name="Владелец", help_text="Укажите владельца продукта", blank=True, null=True, on_delete=models.SET_NULL)
+    is_published = models.BooleanField(default=False)
+
 
     class Meta:
         verbose_name = "Продукт"
