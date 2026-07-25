@@ -65,7 +65,7 @@ class ProductListView(ListView):
     def get_queryset(self):
         user = self.request.user
         qs = super().get_queryset()
-        if user.has_perm('catalog.can_unpublish_product'):
+        if user.has_perm("catalog.can_unpublish_product"):
             return qs
         return qs.filter(is_published=True)
 
@@ -98,14 +98,16 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         user = self.request.user
         if user == self.object.owner:
             return ProductForm
-        if user.has_perm("catalog.delete_product") and user.has_perm("can_unpublish_product"):
+        if user.has_perm("catalog.delete_product") and user.has_perm(
+            "can_unpublish_product"
+        ):
             return ProductModeratorForm
         raise PermissionDenied
 
 
 class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
-    permission_required = 'catalog.delete_product'
+    permission_required = "catalog.delete_product"
     template_name = "product_confirm_delete.html"
     context_object_name = "product"
     success_url = reverse_lazy("catalog:product_list")
@@ -115,7 +117,7 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
         product = self.get_object()
         if user == product.owner:
             return True
-        if user.has_perm('catalog.delete_product'):
+        if user.has_perm("catalog.delete_product"):
             return True
         return False
 
@@ -126,11 +128,13 @@ class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 
 
 class ProductPublishView(LoginRequiredMixin, PermissionRequiredMixin, View):
-    permission_required = 'catalog.can_unpublish_product'
+    permission_required = "catalog.can_unpublish_product"
     raise_exception = True
 
     def post(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         product.is_published = not product.is_published
         product.save()
-        return redirect(request.META.get('HTTP_REFERER', reverse('catalog:product_list')))
+        return redirect(
+            request.META.get("HTTP_REFERER", reverse("catalog:product_list"))
+        )
