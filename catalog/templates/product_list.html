@@ -15,10 +15,38 @@
     {% for product in products %}
         <div class="col">
             <div class="card h-100">
-                <img src="{{ product.image | media_filter }}">
+                <img src="{{ product.image | media_filter }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">{{ product.description|truncatechars:100|default:"Описание отсутствует" }}</p>
+
+                    <div class="mb-2">
+                        <p class="card-text mb-1">
+                            <small>
+                                Статус:
+                                {% if product.is_published %}
+                                    <span class="text-success">Опубликован</span>
+                                {% else %}
+                                    <span class="text-secondary">Не опубликован</span>
+                                {% endif %}
+                            </small>
+                        </p>
+
+                        {% if perms.catalog.can_unpublish_product %}
+                            <form id="publish-form-{{ product.pk }}" method="post" action="{% url 'catalog:product_publish' product.pk %}" style="display: inline;">
+                                {% csrf_token %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           {% if product.is_published %}checked{% endif %}
+                                           onchange="document.getElementById('publish-form-{{ product.pk }}').submit();"
+                                           id="publish-check-{{ product.pk }}">
+                                    <label class="form-check-label" for="publish-check-{{ product.pk }}">
+                                        Опубликован
+                                    </label>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
                     {% if user.is_authenticated %}
                         <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary mt-auto">Подробнее</a>
                     {% endif %}
