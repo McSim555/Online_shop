@@ -14,6 +14,7 @@ from django.views.generic import (
 )
 from catalog.models import Product, Contact
 from .forms import ProductForm, ProductModeratorForm
+from .services import get_products_list_from_cache
 
 
 class HomeView(View):
@@ -62,9 +63,10 @@ class ProductListView(ListView):
     template_name = "product_list.html"
     context_object_name = "products"
 
+
     def get_queryset(self):
         user = self.request.user
-        qs = super().get_queryset()
+        qs = get_products_list_from_cache()
         if user.has_perm("catalog.can_unpublish_product"):
             return qs
         return qs.filter(is_published=True)
