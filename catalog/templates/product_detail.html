@@ -35,7 +35,7 @@
             </div>
 
             <div class="card-footer bg-transparent d-flex gap-2">
-                <a href="{% url 'catalog:product_list' %}" class="btn btn-primary">Назад</a>
+                <a href="{% url 'catalog:product_list' %}" class="btn btn-primary">К каталогу товаров</a>
 
                 {% if user == product.owner  %}
                     <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning">Изменить</a>

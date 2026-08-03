@@ -12,8 +12,9 @@ from django.views.generic import (
     DeleteView,
     UpdateView,
 )
-from catalog.models import Product, Contact
+from catalog.models import Product, Contact, Category
 from .forms import ProductForm, ProductModeratorForm
+from .services import get_products_list_from_cache, get_product_of_category_from_cache
 
 
 class HomeView(View):
@@ -64,7 +65,7 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         user = self.request.user
-        qs = super().get_queryset()
+        qs = get_products_list_from_cache()
         if user.has_perm("catalog.can_unpublish_product"):
             return qs
         return qs.filter(is_published=True)
@@ -138,3 +139,22 @@ class ProductPublishView(LoginRequiredMixin, PermissionRequiredMixin, View):
         return redirect(
             request.META.get("HTTP_REFERER", reverse("catalog:product_list"))
         )
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = "categories_list.html"
+    context_object_name = "categories"
+
+
+class CategoryDetailView(LoginRequiredMixin, DetailView):
+    model = Category
+    template_name = "category_detail.html"
+    context_object_name = "category"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = get_product_of_category_from_cache(self.object.pk).filter(
+            is_published=True
+        )
+        return context
